@@ -1,0 +1,1201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEON | CYBORG — Forge Your Digital Self</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;family=Space+Grotesk:wght@500;600&amp;display=swap');
+        
+        :root {
+            --neon-cyan: #00f0ff;
+            --neon-pink: #ff00aa;
+            --neon-purple: #a855f7;
+        }
+        
+        body {
+            font-family: 'Inter', system_ui, sans-serif;
+        }
+        
+        .font-display {
+            font-family: 'Space Grotesk', 'Inter', sans-serif;
+            font-weight: 600;
+        }
+
+        .neon-text {
+            text-shadow: 0 0 10px var(--neon-cyan),
+                        0 0 20px var(--neon-cyan),
+                        0 0 40px var(--neon-cyan);
+        }
+
+        .neon-pink-text {
+            text-shadow: 0 0 10px var(--neon-pink),
+                        0 0 20px var(--neon-pink);
+        }
+
+        .section-header {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-header::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 60%;
+            height: 3px;
+            background: linear-gradient(to right, var(--neon-cyan), var(--neon-pink));
+            border-radius: 3px;
+        }
+
+        .cyborg-card {
+            transition: all 0.4s cubic-bezier(0.23, 1.0, 0.32, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cyborg-card:hover {
+            transform: translateY(-12px) scale(1.02);
+            box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.4);
+        }
+        
+        .cyborg-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 40%;
+            height: 100%;
+            background: linear-gradient(
+                120deg,
+                transparent,
+                rgba(0, 240, 255, 0.2),
+                transparent
+            );
+            transition: 0.6s;
+        }
+        
+        .cyborg-card:hover::before {
+            left: 300%;
+        }
+
+        .neon-button {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .neon-button::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 40%;
+            height: 300%;
+            background: linear-gradient(
+                to right,
+                transparent 20%,
+                rgba(255,255,255,0.4) 50%,
+                transparent 80%
+            );
+            transform: skewX(-25deg);
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            100% {
+                transform: skewX(-25deg) translateX(300%);
+            }
+        }
+
+        .glass {
+            background: rgba(255, 255, 255, 0.06);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .grid-bg {
+            background-image: 
+                linear-gradient(rgba(0, 240, 255, 0.06) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 240, 255, 0.06) 1px, transparent 1px);
+            background-size: 60px 60px;
+        }
+
+        .glitch {
+            position: relative;
+            animation: glitch 1.5s infinite;
+        }
+
+        .glitch::before,
+        .glitch::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .glitch::before {
+            left: 2px;
+            text-shadow: -2px 0 var(--neon-pink);
+            animation: glitch-anim 1.5s infinite linear alternate-reverse;
+        }
+        
+        .glitch::after {
+            left: -2px;
+            text-shadow: 2px 0 var(--neon-cyan);
+            animation: glitch-anim2 1.5s infinite linear alternate-reverse;
+        }
+
+        @keyframes glitch {
+            0% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+            100% { transform: translate(0); }
+        }
+
+        .nav-active {
+            color: #00f0ff;
+            position: relative;
+        }
+        
+        .nav-active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(to right, #00f0ff, #ff00aa);
+        }
+
+        .cyborg-avatar {
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .scan-line {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(to right, transparent, #00f0ff, transparent);
+            animation: scan 2.5s linear infinite;
+            box-shadow: 0 0 15px #00f0ff;
+            opacity: 0.9;
+        }
+
+        .feature-icon {
+            transition: transform 0.4s ease;
+        }
+        
+        .cyborg-card:hover .feature-icon {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .stat-number {
+            font-variant-numeric: tabular-nums;
+        }
+
+        .modern-shadow {
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.3),
+                        0 4px 6px -4px rgb(0 0 0 / 0.3);
+        }
+    </style>
+</head>
+<body class="bg-[#050507] text-white overflow-x-hidden">
+    <!-- Navbar -->
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-[#050507]/90 backdrop-blur-xl border-b border-white/10">
+        <div class="max-w-screen-2xl mx-auto px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Logo -->
+                <div class="flex items-center gap-x-3">
+                    <div class="w-10 h-10 bg-gradient-to-br from-[#00f0ff] to-[#ff00aa] rounded-2xl flex items-center justify-center">
+                        <i class="fa-solid fa-robot text-[#050507] text-3xl"></i>
+                    </div>
+                    <div>
+                        <span class="font-display text-3xl font-semibold tracking-tighter">NEON</span>
+                        <span class="font-display text-3xl font-semibold tracking-tighter bg-gradient-to-r from-[#00f0ff] to-[#ff00aa] bg-clip-text text-transparent">SYNTH</span>
+                    </div>
+                </div>
+
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex items-center gap-x-10 text-sm font-medium">
+                    <a href="#vision" class="hover:text-[#00f0ff] transition-colors">Vision</a>
+                    <a href="#augmentations" class="hover:text-[#00f0ff] transition-colors">Augmentations</a>
+                    <a href="#builder" class="hover:text-[#00f0ff] transition-colors">Builder</a>
+                    <a href="#gallery" class="hover:text-[#00f0ff] transition-colors">Archive</a>
+                </div>
+
+                <div class="flex items-center gap-x-4">
+                    <!-- Connect Button -->
+                    <button onclick="showNeuralModal()"
+                            class="px-6 py-2.5 text-sm font-semibold rounded-3xl border border-white/20 hover:bg-white/5 transition-all flex items-center gap-x-2">
+                        <i class="fa-solid fa-plug text-[#00f0ff]"></i>
+                        <span>Neural Link</span>
+                    </button>
+                    
+                    <button onclick="document.getElementById('join').scrollIntoView({ behavior: 'smooth' })"
+                            class="neon-button px-7 py-2.5 bg-white text-[#050507] font-semibold text-sm rounded-3xl flex items-center gap-x-2 hover:bg-[#00f0ff] hover:text-[#050507]">
+                        <span>Join the Uprising</span>
+                    </button>
+
+                    <!-- Mobile Menu -->
+                    <button id="mobile-menu-btn" class="md:hidden w-11 h-11 flex items-center justify-center text-xl">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="hidden md:hidden fixed inset-0 bg-[#050507] z-50 pt-20 px-8">
+        <div class="flex flex-col gap-y-1 text-lg">
+            <a href="#vision" class="py-4 px-4 hover:bg-white/5 rounded-3xl transition-colors">The Vision</a>
+            <a href="#augmentations" class="py-4 px-4 hover:bg-white/5 rounded-3xl transition-colors">Augmentations</a>
+            <a href="#builder" class="py-4 px-4 hover:bg-white/5 rounded-3xl transition-colors">Cyborg Builder</a>
+            <a href="#gallery" class="py-4 px-4 hover:bg-white/5 rounded-3xl transition-colors">Neural Archive</a>
+            
+            <div class="pt-6 border-t border-white/10 mt-4">
+                <button onclick="showNeuralModal(); document.getElementById('mobile-menu').classList.add('hidden')"
+                        class="w-full py-4 bg-white/5 rounded-3xl text-center font-medium">
+                    Establish Neural Link
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <div class="pt-20 min-h-[100dvh] flex items-center relative grid-bg">
+        <div class="max-w-screen-2xl mx-auto px-8 pt-12 pb-20">
+            <div class="grid lg:grid-cols-12 gap-12 items-center">
+                <div class="lg:col-span-7 space-y-8">
+                    <div class="inline-flex items-center gap-x-3 px-5 py-2 rounded-3xl border border-white/10 bg-white/5 text-sm">
+                        <div class="w-2.5 h-2.5 bg-[#00f0ff] rounded-full animate-pulse"></div>
+                        <span class="font-medium tracking-widest text-xs">SEASON 09 • 2026</span>
+                    </div>
+                    
+                    <div>
+                        <h1 class="font-display text-[72px] md:text-[92px] leading-[0.92] tracking-tighter font-semibold">
+                            BECOME<br>
+                            <span class="bg-gradient-to-r from-[#00f0ff] via-white to-[#ff00aa] bg-clip-text text-transparent glitch" data-text="MORE THAN">MORE THAN</span><br>
+                            HUMAN.
+                        </h1>
+                    </div>
+                    
+                    <p class="max-w-lg text-xl text-white/70">
+                        The most advanced cyborg augmentation platform on Earth. 
+                        Merge biology with technology. Redefine what it means to be alive.
+                    </p>
+                    
+                    <div class="flex items-center gap-x-4 pt-4">
+                        <button onclick="document.getElementById('builder').scrollIntoView({ behavior: 'smooth' })"
+                                class="neon-button group px-10 py-4 bg-gradient-to-r from-[#00f0ff] to-[#ff00aa] text-[#050507] font-semibold text-lg rounded-3xl flex items-center gap-x-3 transition-all active:scale-[0.985]">
+                            <span>Start Building</span>
+                            <i class="fa-solid fa-arrow-right group-active:translate-x-1 transition"></i>
+                        </button>
+                        
+                        <button onclick="document.getElementById('vision').scrollIntoView({ behavior: 'smooth' })"
+                                class="px-8 py-4 border border-white/30 hover:bg-white/5 font-medium rounded-3xl flex items-center gap-x-3 text-sm transition-all">
+                            <i class="fa-solid fa-play text-[#00f0ff]"></i>
+                            <span>Watch 43s film</span>
+                        </button>
+                    </div>
+                    
+                    <div class="flex items-center gap-x-8 pt-6 text-sm">
+                        <div class="flex -space-x-3">
+                            <div class="w-8 h-8 rounded-full border border-[#050507] overflow-hidden"><img src="https://picsum.photos/id/1005/32/32" class="w-full h-full object-cover"></div>
+                            <div class="w-8 h-8 rounded-full border border-[#050507] overflow-hidden"><img src="https://picsum.photos/id/1011/32/32" class="w-full h-full object-cover"></div>
+                            <div class="w-8 h-8 rounded-full border border-[#050507] overflow-hidden"><img src="https://picsum.photos/id/1009/32/32" class="w-full h-full object-cover"></div>
+                        </div>
+                        <div>
+                            <span class="font-semibold">128,492</span> 
+                            <span class="text-white/60">augmented</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Hero Visual -->
+                <div class="lg:col-span-5 relative">
+                    <div class="relative aspect-square max-w-[440px] mx-auto">
+                        <!-- Cyborg Hero Visual -->
+                        <div class="relative w-full h-full rounded-[4rem] overflow-hidden border border-white/10 shadow-2xl modern-shadow">
+                            <img src="https://picsum.photos/id/1015/800/800" alt="Cyborg Hero" class="w-full h-full object-cover">
+                            
+                            <!-- Overlay effects -->
+                            <div class="absolute inset-0 bg-gradient-to-br from-[#050507]/70 via-transparent to-transparent"></div>
+                            <div class="absolute inset-0 bg-gradient-to-t from-[#050507]/90 via-transparent to-transparent"></div>
+                            
+                            <!-- Holographic elements -->
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <div class="w-4/5 h-4/5 border border-[#00f0ff]/30 rounded-[3rem]"></div>
+                            </div>
+                            
+                            <!-- Status indicators -->
+                            <div class="absolute top-8 right-8 glass px-4 py-1.5 rounded-2xl text-xs flex items-center gap-x-2">
+                                <div class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
+                                <span class="font-mono tracking-widest text-emerald-400 text-xs">CONNECTED</span>
+                            </div>
+                            
+                            <div class="absolute bottom-8 left-8">
+                                <div class="font-mono text-xs tracking-[3px] text-white/60">SUBJECT #00098421</div>
+                                <div class="text-lg font-semibold">AETHER-09</div>
+                            </div>
+                            
+                            <!-- Scan line -->
+                            <div class="scan-line" style="animation-duration: 3.2s;"></div>
+                        </div>
+                        
+                        <!-- Floating badge -->
+                        <div class="absolute -top-4 -right-4 glass px-5 py-3 rounded-3xl border border-white/10">
+                            <div class="flex items-center gap-x-3">
+                                <div>
+                                    <div class="text-xs text-white/60">NEURAL SYNC</div>
+                                    <div class="font-mono text-[#00f0ff] font-semibold">99.8%</div>
+                                </div>
+                                <i class="fa-solid fa-satellite text-3xl text-[#00f0ff]"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Scroll indicator -->
+        <div class="absolute bottom-12 left-1/2 hidden lg:flex flex-col items-center">
+            <div class="text-xs tracking-widest text-white/40 mb-2">SCROLL TO BEGIN</div>
+            <div class="w-[1px] h-12 bg-gradient-to-b from-white/40 to-transparent"></div>
+        </div>
+    </div>
+
+    <!-- Trust Bar -->
+    <div class="border-y border-white/10 py-5 bg-[#050507]">
+        <div class="max-w-screen-2xl mx-auto px-8">
+            <div class="flex flex-wrap items-center justify-center gap-x-10 gap-y-4 opacity-75 text-sm">
+                <div class="flex items-center gap-x-3"><i class="fa-brands fa-google text-xl"></i> <span>Google DeepMind</span></div>
+                <div class="flex items-center gap-x-3"><i class="fa-solid fa-microchip text-xl"></i> <span>Neuralink</span></div>
+                <div class="flex items-center gap-x-3"><i class="fa-solid fa-rocket text-xl"></i> <span>SpaceX</span></div>
+                <div class="flex items-center gap-x-3"><span class="font-semibold">IIT Bombay Techfest</span> Official Partner</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Vision Section -->
+    <div id="vision" class="max-w-screen-2xl mx-auto px-8 py-24">
+        <div class="grid lg:grid-cols-12 gap-16 items-center">
+            <div class="lg:col-span-5">
+                <div class="sticky top-24">
+                    <div class="uppercase tracking-[4px] text-xs text-[#00f0ff] font-medium mb-3">CHAPTER 01 • THE AWAKENING</div>
+                    <h2 class="font-display text-6xl leading-none tracking-tighter">The Vision.<br>Redefine Existence.</h2>
+                    
+                    <div class="mt-8 text-lg text-white/70 max-w-md">
+                        In 2026, humanity stands at the precipice of evolution. 
+                        NEON SYNTH is not just technology — it's the next step in human consciousness.
+                    </div>
+                    
+                    <div class="mt-8 flex items-center gap-x-4">
+                        <div class="px-5 py-2 text-xs border border-white/20 rounded-3xl">Featured in Wired 2026</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="lg:col-span-7">
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="glass p-8 rounded-3xl border border-white/10">
+                        <div class="text-[#00f0ff] text-5xl font-display mb-8">01</div>
+                        <div class="font-semibold text-2xl mb-3">Biological Integration</div>
+                        <p class="text-white/60">Seamless fusion of organic tissue with synthetic neural networks. No rejection. No limits.</p>
+                        
+                        <div class="mt-8 pt-8 border-t border-white/10 text-sm flex items-center gap-x-2 text-[#00f0ff]">
+                            <span>Learn more</span> <i class="fa-solid fa-arrow-right"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="glass p-8 rounded-3xl border border-white/10">
+                        <div class="text-[#ff00aa] text-5xl font-display mb-8">02</div>
+                        <div class="font-semibold text-2xl mb-3">Quantum Cognition</div>
+                        <p class="text-white/60">Access parallel realities and infinite processing power through your augmented cortex.</p>
+                        
+                        <div class="mt-8 pt-8 border-t border-white/10 text-sm flex items-center gap-x-2 text-[#ff00aa]">
+                            <span>Learn more</span> <i class="fa-solid fa-arrow-right"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="max-w-screen-2xl mx-auto px-8 py-16 border-t border-white/10">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+            <div class="text-center">
+                <div class="text-6xl font-display font-semibold stat-number" data-target="128492">0</div>
+                <div class="text-xs tracking-widest mt-2 text-white/60">CYBORGS CREATED</div>
+            </div>
+            <div class="text-center">
+                <div class="text-6xl font-display font-semibold stat-number" data-target="47">0</div>
+                <div class="text-xs tracking-widest mt-2 text-white/60">COUNTRIES</div>
+            </div>
+            <div class="text-center">
+                <div class="text-6xl font-display font-semibold stat-number" data-target="89">0</div>
+                <div class="text-xs tracking-widest mt-2 text-white/60">AVG. IQ BOOST</div>
+            </div>
+            <div class="text-center">
+                <div class="text-6xl font-display font-semibold stat-number" data-target="4.9">0</div>
+                <div class="text-xs tracking-widest mt-2 text-white/60">SATISFACTION</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Augmentations Section -->
+    <div id="augmentations" class="max-w-screen-2xl mx-auto px-8 py-20">
+        <div class="text-center mb-16">
+            <div class="text-[#00f0ff] text-xs tracking-[3px] font-medium mb-3">NEXT-GEN AUGMENTATIONS</div>
+            <h2 class="font-display text-6xl tracking-tighter">Choose Your Evolution</h2>
+        </div>
+        
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <!-- Card 1 -->
+            <div class="cyborg-card glass p-8 rounded-3xl border border-white/10 group">
+                <div class="feature-icon w-14 h-14 flex items-center justify-center bg-gradient-to-br from-[#00f0ff] to-cyan-400 rounded-2xl mb-8">
+                    <i class="fa-solid fa-eye text-[#050507] text-3xl"></i>
+                </div>
+                <h3 class="text-2xl font-semibold tracking-tight">Ocular Nexus</h3>
+                <p class="mt-3 text-white/70">Enhanced vision with thermal, night, and augmented reality overlays. 8K resolution.</p>
+                <div class="mt-6 flex justify-between items-end">
+                    <div>
+                        <div class="text-xs text-white/50">PRICE</div>
+                        <div class="font-semibold">₹4,89,000</div>
+                    </div>
+                    <div class="px-4 py-1.5 text-xs bg-[#00f0ff]/10 text-[#00f0ff] rounded-2xl">MOST POPULAR</div>
+                </div>
+            </div>
+            
+            <!-- Card 2 -->
+            <div class="cyborg-card glass p-8 rounded-3xl border border-white/10 group">
+                <div class="feature-icon w-14 h-14 flex items-center justify-center bg-gradient-to-br from-[#ff00aa] to-pink-400 rounded-2xl mb-8">
+                    <i class="fa-solid fa-brain text-[#050507] text-3xl"></i>
+                </div>
+                <h3 class="text-2xl font-semibold tracking-tight">Neural Core</h3>
+                <p class="mt-3 text-white/70">Quantum processor implant. 400x faster thought processing. Memory expansion.</p>
+                <div class="mt-6 flex justify-between items-end">
+                    <div>
+                        <div class="text-xs text-white/50">PRICE</div>
+                        <div class="font-semibold">₹12,75,000</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Card 3 -->
+            <div class="cyborg-card glass p-8 rounded-3xl border border-white/10 group">
+                <div class="feature-icon w-14 h-14 flex items-center justify-center bg-gradient-to-br from-purple-400 to-[#a855f7] rounded-2xl mb-8">
+                    <i class="fa-solid fa-hand-fist text-[#050507] text-3xl"></i>
+                </div>
+                <h3 class="text-2xl font-semibold tracking-tight">Titanium Exo-Arms</h3>
+                <p class="mt-3 text-white/70">Hydraulic strength augmentation. 250kg lift capacity. Haptic feedback.</p>
+                <div class="mt-6 flex justify-between items-end">
+                    <div>
+                        <div class="text-xs text-white/50">PRICE</div>
+                        <div class="font-semibold">₹7,90,000</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Card 4 -->
+            <div class="cyborg-card glass p-8 rounded-3xl border border-white/10 group">
+                <div class="feature-icon w-14 h-14 flex items-center justify-center bg-gradient-to-br from-emerald-400 to-teal-400 rounded-2xl mb-8">
+                    <i class="fa-solid fa-heartbeat text-[#050507] text-3xl"></i>
+                </div>
+                <h3 class="text-2xl font-semibold tracking-tight">Cardio-Forge</h3>
+                <p class="mt-3 text-white/70">Self-healing synthetic heart. Infinite stamina. Oxygen recycling.</p>
+                <div class="mt-6 flex justify-between items-end">
+                    <div>
+                        <div class="text-xs text-white/50">PRICE</div>
+                        <div class="font-semibold">₹9,40,000</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Interactive Builder -->
+    <div id="builder" class="max-w-screen-2xl mx-auto px-8 py-20 border-t border-white/10">
+        <div class="grid lg:grid-cols-12 gap-12 items-center">
+            <div class="lg:col-span-5">
+                <div class="max-w-md">
+                    <div class="text-[#00f0ff] text-xs tracking-[3px] font-medium mb-3">INTERACTIVE EXPERIENCE</div>
+                    <h2 class="font-display text-6xl tracking-tighter leading-none">Design Your<br>Perfect Cyborg.</h2>
+                    <p class="mt-6 text-lg text-white/70">Use our real-time builder to visualize your future self. Every choice is reflected instantly.</p>
+                    
+                    <div class="mt-8">
+                        <button onclick="randomizeCyborg()" 
+                                class="flex items-center gap-x-2 text-sm font-medium px-6 py-3 border border-white/20 hover:bg-white/5 rounded-3xl transition-colors">
+                            <i class="fa-solid fa-dice"></i>
+                            <span>Randomize Design</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Builder Preview -->
+            <div class="lg:col-span-7">
+                <div class="glass p-1 rounded-3xl border border-white/10 max-w-[520px]">
+                    <div class="relative rounded-[22px] overflow-hidden aspect-[4/3] bg-[#0a0a0f]">
+                        <!-- Cyborg Preview -->
+                        <div id="cyborg-preview" 
+                             class="w-full h-full bg-gradient-to-br from-zinc-900 to-black flex items-center justify-center relative">
+                            
+                            <!-- Cyborg Head -->
+                            <div class="relative">
+                                <!-- Head -->
+                                <div id="cyborg-head" 
+                                     class="w-44 h-44 rounded-[4.5rem] border-[12px] border-zinc-700 bg-zinc-800 flex items-center justify-center relative shadow-inner"
+                                     style="box-shadow: inset 0 0 60px rgba(0,0,0,0.6), 0 0 0 1px #27272a;">
+                                    
+                                    <!-- Face plate -->
+                                    <div class="w-32 h-32 bg-zinc-900 rounded-[3rem] flex items-center justify-center relative overflow-hidden">
+                                        
+                                        <!-- Eyes -->
+                                        <div class="flex gap-x-7 items-center">
+                                            <!-- Left Eye -->
+                                            <div id="left-eye" 
+                                                 class="w-[22px] h-[22px] bg-[#00f0ff] rounded-full flex items-center justify-center shadow-[0_0_20px_#00f0ff]">
+                                                <div class="w-2 h-2 bg-black rounded-full"></div>
+                                            </div>
+                                            
+                                            <!-- Right Eye -->
+                                            <div id="right-eye" 
+                                                 class="w-[22px] h-[22px] bg-[#00f0ff] rounded-full flex items-center justify-center shadow-[0_0_20px_#00f0ff]">
+                                                <div class="w-2 h-2 bg-black rounded-full"></div>
+                                            </div>
+                                        </div>
+                                        
+                                        <!-- Mouth / Grill -->
+                                        <div class="absolute bottom-8 w-16 h-px bg-zinc-700"></div>
+                                        <div class="absolute bottom-7 w-9 h-px bg-zinc-700"></div>
+                                    </div>
+                                    
+                                    <!-- Holographic visor -->
+                                    <div class="absolute inset-0 rounded-[4.5rem] border border-[#00f0ff]/30"></div>
+                                </div>
+                                
+                                <!-- Neck / Shoulders hint -->
+                                <div class="absolute -bottom-3 left-1/2 -translate-x-1/2 w-28 h-8 bg-zinc-800 rounded-full"></div>
+                            </div>
+                            
+                            <!-- Status overlays -->
+                            <div class="absolute top-6 right-6 text-right">
+                                <div class="font-mono text-xs text-emerald-400">SYNC: 100%</div>
+                            </div>
+                            
+                            <div class="absolute bottom-6 left-6">
+                                <div id="cyborg-name" class="font-display text-lg font-medium">AETHER-09</div>
+                                <div class="text-xs text-white/50 tracking-widest">PROTOTYPE</div>
+                            </div>
+                            
+                            <!-- Scan line on preview -->
+                            <div id="preview-scan" class="scan-line" style="animation-duration: 2.8s; top: 15%;"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Controls -->
+                <div class="mt-8 max-w-[520px]">
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        <!-- Eye Color -->
+                        <div>
+                            <div class="flex items-center justify-between mb-3">
+                                <div class="text-xs tracking-widest text-white/60">EYE COLOR</div>
+                            </div>
+                            <div class="flex gap-2">
+                                <button onclick="changeEyeColor('#00f0ff')" class="w-8 h-8 rounded-2xl bg-[#00f0ff] border border-white/30"></button>
+                                <button onclick="changeEyeColor('#ff00aa')" class="w-8 h-8 rounded-2xl bg-[#ff00aa] border border-white/30"></button>
+                                <button onclick="changeEyeColor('#a855f7')" class="w-8 h-8 rounded-2xl bg-[#a855f7] border border-white/30"></button>
+                                <button onclick="changeEyeColor('#22c55e')" class="w-8 h-8 rounded-2xl bg-[#22c55e] border border-white/30"></button>
+                            </div>
+                        </div>
+                        
+                        <!-- Head Type -->
+                        <div>
+                            <div class="text-xs tracking-widest text-white/60 mb-3">HEAD TYPE</div>
+                            <div class="flex gap-2">
+                                <button onclick="changeHeadType('standard')" class="px-4 py-1 text-xs bg-white/10 hover:bg-white/20 rounded-2xl transition">Standard</button>
+                                <button onclick="changeHeadType('angular')" class="px-4 py-1 text-xs bg-white/10 hover:bg-white/20 rounded-2xl transition">Angular</button>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div class="text-xs tracking-widest text-white/60 mb-3">GLOW INTENSITY</div>
+                            <input type="range" id="glow-slider" min="10" max="100" value="60" 
+                                   class="accent-[#00f0ff] w-full" oninput="updateGlow()">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gallery Section -->
+    <div id="gallery" class="max-w-screen-2xl mx-auto px-8 py-20">
+        <div class="flex items-end justify-between mb-10">
+            <div>
+                <div class="text-[#00f0ff] text-xs tracking-[3px]">NEURAL ARCHIVE</div>
+                <h2 class="font-display text-6xl tracking-tighter">Recent Augmentations</h2>
+            </div>
+            <button class="hidden md:flex items-center gap-x-2 text-sm font-medium hover:text-[#00f0ff]">
+                VIEW FULL ARCHIVE <i class="fa-solid fa-arrow-right ml-2"></i>
+            </button>
+        </div>
+        
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+            <div class="group relative overflow-hidden rounded-3xl aspect-video">
+                <img src="https://picsum.photos/id/1018/600/400" class="w-full h-full object-cover transition-transform group-hover:scale-105" alt="Cyborg 1">
+                <div class="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/80"></div>
+                <div class="absolute bottom-0 left-0 p-4">
+                    <div class="font-medium">KAI-04</div>
+                    <div class="text-xs text-white/60">Singapore • 12h ago</div>
+                </div>
+            </div>
+            
+            <div class="group relative overflow-hidden rounded-3xl aspect-video">
+                <img src="https://picsum.photos/id/160/600/400" class="w-full h-full object-cover transition-transform group-hover:scale-105" alt="Cyborg 2">
+                <div class="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/80"></div>
+                <div class="absolute bottom-0 left-0 p-4">
+                    <div class="font-medium">NOVA-17</div>
+                    <div class="text-xs text-white/60">Berlin • 2d ago</div>
+                </div>
+            </div>
+            
+            <div class="group relative overflow-hidden rounded-3xl aspect-video">
+                <img src="https://picsum.photos/id/201/600/400" class="w-full h-full object-cover transition-transform group-hover:scale-105" alt="Cyborg 3">
+                <div class="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/80"></div>
+                <div class="absolute bottom-0 left-0 p-4">
+                    <div class="font-medium">ECHO-22</div>
+                    <div class="text-xs text-white/60">Tokyo • 5d ago</div>
+                </div>
+            </div>
+            
+            <div class="group relative overflow-hidden rounded-3xl aspect-video">
+                <img src="https://picsum.photos/id/251/600/400" class="w-full h-full object-cover transition-transform group-hover:scale-105" alt="Cyborg 4">
+                <div class="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/80"></div>
+                <div class="absolute bottom-0 left-0 p-4">
+                    <div class="font-medium">VOLT-33</div>
+                    <div class="text-xs text-white/60">Mumbai • 1w ago</div>
+                </div>
+            </div>
+            
+            <div class="group relative overflow-hidden rounded-3xl aspect-video md:col-span-1 lg:col-span-1">
+                <img src="https://picsum.photos/id/29/600/400" class="w-full h-full object-cover transition-transform group-hover:scale-105" alt="Cyborg 5">
+                <div class="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/80"></div>
+                <div class="absolute bottom-0 left-0 p-4">
+                    <div class="font-medium">LYRA-08</div>
+                    <div class="text-xs text-white/60">IIT Bombay • Now</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Final CTA -->
+    <div id="join" class="max-w-screen-2xl mx-auto px-8 py-20">
+        <div class="glass p-16 rounded-[3rem] text-center border border-white/10 relative overflow-hidden">
+            <div class="max-w-lg mx-auto">
+                <div class="mx-auto w-fit px-5 py-1 text-xs tracking-widest bg-white/5 border border-white/10 rounded-3xl mb-6">LIMITED TO 500 SPOTS THIS MONTH</div>
+                
+                <h2 class="font-display text-6xl tracking-tighter">Ready to transcend?</h2>
+                <p class="mt-3 text-xl text-white/70">Join the most elite network of augmented humans.</p>
+                
+                <div class="mt-9 flex flex-col sm:flex-row gap-4 justify-center">
+                    <button onclick="showNeuralModal()"
+                            class="px-14 py-4 font-semibold bg-gradient-to-r from-[#00f0ff] to-[#ff00aa] text-[#050507] rounded-3xl text-lg transition hover:brightness-110">
+                        Begin Neural Integration
+                    </button>
+                    
+                    <button class="px-9 py-4 border border-white/20 hover:bg-white/5 rounded-3xl text-sm font-medium transition">
+                        Schedule a Demo
+                    </button>
+                </div>
+                
+                <div class="mt-8 text-xs text-white/60">Your data is encrypted. No human ever sees your neural patterns.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="border-t border-white/10 pt-10 pb-8 px-8 max-w-screen-2xl mx-auto">
+        <div class="flex flex-col md:flex-row justify-between gap-y-8 text-sm">
+            <div>
+                <div class="flex items-center gap-x-3 mb-4">
+                    <div class="w-8 h-8 bg-gradient-to-br from-[#00f0ff] to-[#ff00aa] rounded-2xl flex items-center justify-center">
+                        <i class="fa-solid fa-robot text-[#050507]"></i>
+                    </div>
+                    <span class="font-display text-2xl font-semibold">NEON SYNTH</span>
+                </div>
+                <div class="text-white/50 text-xs max-w-xs">Pioneering the future of human augmentation since 2021.</div>
+            </div>
+            
+            <div class="grid grid-cols-3 gap-x-12 text-xs">
+                <div>
+                    <div class="font-medium mb-4 tracking-wider">PLATFORM</div>
+                    <div class="space-y-[9px] text-white/60">
+                        <div>Builder</div>
+                        <div>Neural Hub</div>
+                        <div>Community</div>
+                    </div>
+                </div>
+                <div>
+                    <div class="font-medium mb-4 tracking-wider">COMPANY</div>
+                    <div class="space-y-[9px] text-white/60">
+                        <div>Manifesto</div>
+                        <div>Research</div>
+                        <div>Careers</div>
+                    </div>
+                </div>
+                <div>
+                    <div class="font-medium mb-4 tracking-wider">LEGAL</div>
+                    <div class="space-y-[9px] text-white/60">
+                        <div>Privacy</div>
+                        <div>Ethics</div>
+                        <div>Terms</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="mt-12 pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center text-xs text-white/50 gap-y-2">
+            <div>© 2026 NEON SYNTH. All rights reserved. Made for IIT Bombay CA Techfest.</div>
+            <div class="flex items-center gap-x-4">
+                <div>Designed for the future.</div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Neural Link Modal -->
+    <div id="neural-modal" onclick="hideNeuralModal(event)" class="hidden fixed inset-0 bg-black/90 z-[100] flex items-center justify-center p-6">
+        <div onclick="event.stopImmediatePropagation()" class="glass w-full max-w-md rounded-3xl p-8 border border-white/20">
+            <div class="flex justify-between items-start">
+                <div>
+                    <div class="text-[#00f0ff] text-xs tracking-widest">SECURE CHANNEL</div>
+                    <div class="font-display text-4xl tracking-tighter">Neural Link</div>
+                </div>
+                <button onclick="hideNeuralModal()" class="text-3xl text-white/40 hover:text-white">×</button>
+            </div>
+            
+            <div class="mt-8">
+                <div class="text-center py-8">
+                    <div class="inline-flex w-20 h-20 bg-gradient-to-br from-[#00f0ff]/20 to-[#ff00aa]/20 rounded-full items-center justify-center mb-5">
+                        <i class="fa-solid fa-plug text-5xl text-[#00f0ff]"></i>
+                    </div>
+                    <div class="font-medium">Connecting to NEON SYNTH Network...</div>
+                    <div class="text-xs text-white/60 mt-1">Establishing quantum entanglement...</div>
+                </div>
+                
+                <div class="space-y-3">
+                    <div class="flex justify-between text-sm">
+                        <div>Brainwave sync</div>
+                        <div class="font-mono text-emerald-400">100%</div>
+                    </div>
+                    <div class="h-px bg-white/10 w-full">
+                        <div class="h-px bg-emerald-400 w-full transition-all"></div>
+                    </div>
+                    
+                    <div class="flex justify-between text-sm pt-3">
+                        <div>Neural ID verified</div>
+                        <div class="font-mono text-emerald-400">✓</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-8">
+                <button onclick="completeNeuralLink()" 
+                        class="w-full py-4 bg-white text-[#050507] font-semibold rounded-3xl text-sm">
+                    COMPLETE INTEGRATION
+                </button>
+                <div class="text-center text-xs mt-4 text-white/50">This action is irreversible</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Tailwind script
+        function initializeTailwind() {
+            document.documentElement.style.setProperty('--accent-cyan', '#00f0ff');
+        }
+        
+        // Mobile menu
+        function initMobileMenu() {
+            const btn = document.getElementById('mobile-menu-btn');
+            const menu = document.getElementById('mobile-menu');
+            
+            btn.addEventListener('click', () => {
+                menu.classList.toggle('hidden');
+                if (!menu.classList.contains('hidden')) {
+                    btn.innerHTML = `<i class="fa-solid fa-times"></i>`;
+                } else {
+                    btn.innerHTML = `<i class="fa-solid fa-bars"></i>`;
+                }
+            });
+            
+            // Close on link click
+            menu.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    menu.classList.add('hidden');
+                    btn.innerHTML = `<i class="fa-solid fa-bars"></i>`;
+                });
+            });
+        }
+        
+        // Animated stats
+        function animateStats() {
+            const stats = document.querySelectorAll('.stat-number');
+            
+            stats.forEach(stat => {
+                const target = parseInt(stat.getAttribute('data-target'));
+                let current = 0;
+                const increment = target / 80;
+                
+                const interval = setInterval(() => {
+                    current += increment;
+                    
+                    if (current >= target) {
+                        if (target === 4.9) {
+                            stat.textContent = target.toFixed(1);
+                        } else {
+                            stat.textContent = target.toLocaleString();
+                        }
+                        clearInterval(interval);
+                    } else {
+                        if (target === 4.9) {
+                            stat.textContent = current.toFixed(1);
+                        } else {
+                            stat.textContent = Math.floor(current).toLocaleString();
+                        }
+                    }
+                }, 30);
+            });
+        }
+        
+        // Cyborg Builder functions
+        let currentEyeColor = '#00f0ff';
+        let currentHeadType = 'standard';
+        
+        function changeEyeColor(color) {
+            currentEyeColor = color;
+            const leftEye = document.getElementById('left-eye');
+            const rightEye = document.getElementById('right-eye');
+            
+            leftEye.style.backgroundColor = color;
+            leftEye.style.boxShadow = `0 0 20px ${color}`;
+            
+            rightEye.style.backgroundColor = color;
+            rightEye.style.boxShadow = `0 0 20px ${color}`;
+        }
+        
+        function changeHeadType(type) {
+            const head = document.getElementById('cyborg-head');
+            currentHeadType = type;
+            
+            if (type === 'standard') {
+                head.style.borderRadius = '4.5rem';
+                head.style.borderWidth = '12px';
+            } else {
+                head.style.borderRadius = '2.5rem';
+                head.style.borderWidth = '9px';
+            }
+        }
+        
+        function updateGlow() {
+            const slider = document.getElementById('glow-slider');
+            const value = slider.value;
+            const head = document.getElementById('cyborg-head');
+            const leftEye = document.getElementById('left-eye');
+            const rightEye = document.getElementById('right-eye');
+            
+            const glowIntensity = value / 100;
+            
+            head.style.boxShadow = `inset 0 0 60px rgba(0,0,0,0.6), 0 0 0 1px #27272a, 0 0 ${30 * glowIntensity}px ${currentEyeColor}40`;
+            leftEye.style.boxShadow = `0 0 ${25 * glowIntensity}px ${currentEyeColor}`;
+            rightEye.style.boxShadow = `0 0 ${25 * glowIntensity}px ${currentEyeColor}`;
+        }
+        
+        function randomizeCyborg() {
+            // Random eye color
+            const colors = ['#00f0ff', '#ff00aa', '#a855f7', '#22c55e', '#f97316'];
+            const randomColor = colors[Math.floor(Math.random() * colors.length)];
+            changeEyeColor(randomColor);
+            
+            // Random head type
+            const headType = Math.random() > 0.5 ? 'standard' : 'angular';
+            changeHeadType(headType);
+            
+            // Random glow
+            const slider = document.getElementById('glow-slider');
+            slider.value = Math.floor(Math.random() * 70) + 30;
+            updateGlow();
+            
+            // Random name
+            const names = ['AETHER-09', 'NEXUS-17', 'KAI-42', 'VOLT-11', 'LYRA-88', 'ECHO-05'];
+            document.getElementById('cyborg-name').innerHTML = names[Math.floor(Math.random() * names.length)];
+            
+            // Add fun animation
+            const preview = document.getElementById('cyborg-preview');
+            preview.style.transitionDuration = '80ms';
+            preview.style.transform = 'scale(0.96)';
+            
+            setTimeout(() => {
+                preview.style.transform = 'scale(1)';
+                preview.style.transitionDuration = '400ms';
+            }, 120);
+        }
+        
+        // Initialize cyborg builder
+        function initCyborgBuilder() {
+            // Set initial values
+            const leftEye = document.getElementById('left-eye');
+            const rightEye = document.getElementById('right-eye');
+            const head = document.getElementById('cyborg-head');
+            
+            // Initial glow
+            const slider = document.getElementById('glow-slider');
+            slider.value = 65;
+            
+            // Set initial eye glow
+            leftEye.style.boxShadow = `0 0 20px ${currentEyeColor}`;
+            rightEye.style.boxShadow = `0 0 20px ${currentEyeColor}`;
+            
+            // Update glow on slider change
+            slider.addEventListener('input', updateGlow);
+            
+            // Keyboard support
+            document.addEventListener('keydown', function(e) {
+                if (e.key === "r" || e.key === "R") {
+                    if (document.getElementById('builder').getBoundingClientRect().top < window.innerHeight) {
+                        e.preventDefault();
+                        randomizeCyborg();
+                    }
+                }
+            });
+            
+            // Random name on load
+            setTimeout(() => {
+                const names = ['AETHER-09', 'NEXUS-17', 'KAI-42', 'VOLT-11'];
+                document.getElementById('cyborg-name').innerHTML = names[Math.floor(Math.random() * names.length)];
+            }, 1200);
+        }
+        
+        // Neural Modal
+        function showNeuralModal() {
+            const modal = document.getElementById('neural-modal');
+            modal.style.display = 'flex';
+            modal.classList.remove('hidden');
+        }
+        
+        function hideNeuralModal(event) {
+            const modal = document.getElementById('neural-modal');
+            modal.style.display = 'none';
+            modal.classList.add('hidden');
+        }
+        
+        function completeNeuralLink() {
+            const modal = document.getElementById('neural-modal');
+            
+            modal.innerHTML = `
+                <div class="glass w-full max-w-md rounded-3xl p-8 border border-white/20 text-center">
+                    <div class="text-emerald-400 text-7xl mb-5"><i class="fa-solid fa-check-circle"></i></div>
+                    <div class="font-display text-3xl tracking-tight">Integration Complete</div>
+                    <div class="mt-3 text-white/60">Welcome to the network, Agent.</div>
+                    
+                    <div class="my-9 text-xs bg-white/5 border border-white/10 px-4 py-3 rounded-2xl inline-block font-mono">
+                        Your new ID: <span class="font-semibold text-[#00f0ff]">NS-884291</span>
+                    </div>
+                    
+                    <button onclick="window.location.reload()" 
+                            class="mt-3 px-10 py-3.5 w-full bg-white text-[#050507] font-semibold text-sm rounded-3xl">
+                        RETURN TO DASHBOARD
+                    </button>
+                </div>
+            `;
+        }
+        
+        // Smooth scroll for nav
+        function initSmoothScroll() {
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        e.preventDefault();
+                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                });
+            });
+        }
+        
+        // Parallax + Scroll effects
+        function initScrollEffects() {
+            // Simple scroll reveal for cards
+            const cards = document.querySelectorAll('.cyborg-card');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.transitionDuration = '400ms';
+                        entry.target.style.transitionProperty = 'all';
+                        entry.target.style.transitionTimingFunction = 'ease';
+                    }
+                });
+            }, { threshold: 0.3 });
+            
+            cards.forEach(card => observer.observe(card));
+            
+            // Navbar active state
+            const navLinks = document.querySelectorAll('nav a[href^="#"]');
+            const sections = ['vision', 'augmentations', 'builder', 'gallery'];
+            
+            window.addEventListener('scroll', () => {
+                let current = '';
+                
+                sections.forEach(sectionId => {
+                    const section = document.getElementById(sectionId);
+                    if (!section) return;
+                    
+                    const sectionTop = section.getBoundingClientRect().top;
+                    
+                    if (sectionTop <= 200) {
+                        current = sectionId;
+                    }
+                });
+                
+                navLinks.forEach(link => {
+                    link.classList.remove('nav-active');
+                    if (link.getAttribute('href') === `#${current}`) {
+                        link.classList.add('nav-active');
+                    }
+                });
+            });
+        }
+        
+        // Add subtle particle effect in hero (canvas)
+        function createParticles() {
+            const hero = document.querySelector('.grid-bg');
+            if (!hero) return;
+            
+            const canvas = document.createElement('canvas');
+            canvas.style.position = 'absolute';
+            canvas.style.top = '0';
+            canvas.style.left = '0';
+            canvas.style.width = '100%';
+            canvas.style.height = '100%';
+            canvas.style.pointerEvents = 'none';
+            canvas.style.zIndex = '1';
+            hero.style.position = 'relative';
+            hero.appendChild(canvas);
+            
+            const ctx = canvas.getContext('2d');
+            canvas.width = hero.offsetWidth;
+            canvas.height = hero.offsetHeight;
+            
+            let particles = [];
+            
+            class Particle {
+                constructor() {
+                    this.x = Math.random() * canvas.width;
+                    this.y = Math.random() * canvas.height;
+                    this.size = Math.random() * 1.8 + 0.6;
+                    this.speedX = Math.random() * 0.4 - 0.2;
+                    this.speedY = Math.random() * 0.4 - 0.2;
+                    this.opacity = Math.random() * 0.4 + 0.2;
+                }
+                
+                update() {
+                    this.x += this.speedX;
+                    this.y += this.speedY;
+                    
+                    if (this.x > canvas.width) this.x = 0;
+                    if (this.x < 0) this.x = canvas.width;
+                    if (this.y > canvas.height) this.y = 0;
+                    if (this.y < 0) this.y = canvas.height;
+                }
+                
+                draw() {
+                    ctx.fillStyle = `rgba(0, 240, 255, ${this.opacity})`;
+                    ctx.fillRect(this.x, this.y, this.size, this.size);
+                }
+            }
+            
+            for (let i = 0; i < 55; i++) {
+                particles.push(new Particle());
+            }
+            
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                
+                particles.forEach(p => {
+                    p.update();
+                    p.draw();
+                });
+                
+                requestAnimationFrame(animate);
+            }
+            
+            animate();
+            
+            // Resize handler
+            window.addEventListener('resize', () => {
+                canvas.width = hero.offsetWidth;
+                canvas.height = hero.offsetHeight;
+            });
+        }
+        
+        // Main initialization
+        function initialize() {
+            initializeTailwind();
+            initMobileMenu();
+            animateStats();
+            initCyborgBuilder();
+            initSmoothScroll();
+            initScrollEffects();
+            createParticles();
+            
+            // Keyboard hint
+            console.log('%c[NEON SYNTH] Press "R" in the Builder section to randomize', 'color:#666');
+            
+            // Easter egg: Click logo to trigger scan effect
+            const logo = document.querySelector('nav .fa-robot');
+            if (logo) {
+                logo.addEventListener('click', () => {
+                    const hero = document.querySelector('.grid-bg');
+                    if (hero) {
+                        hero.style.transitionDuration = '120ms';
+                        hero.style.filter = 'hue-rotate(40deg)';
+                        setTimeout(() => {
+                            hero.style.filter = '';
+                            hero.style.transitionDuration = '400ms';
+                        }, 600);
+                    }
+                });
+            }
+            
+            // Preload some eye colors
+            setTimeout(() => {
+                const leftEye = document.getElementById('left-eye');
+                const rightEye = document.getElementById('right-eye');
+                if (leftEye && rightEye) {
+                    // Already set in builder init
+                }
+            }, 200);
+            
+            // Final touch: Make sure everything is visible
+            console.log('%c[CA Techfest] Cyborg landing page initialized successfully.', 'color:#00f0ff');
+        }
+        
+        // Boot the application
+        window.onload = initialize;
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a0b1647ffb134063',t:'MTc4MTM1NjgyNQ=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
